@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 
 export const get = (url, param = {}) => {
   return new Promise((resolve, reject) => {
-    axiosInstance.post(url, { param }).then((response) => {
+    axiosInstance.get(url, { param }).then((response) => {
       resolve(response.data)
     }, (err) => {
       reject(err)
