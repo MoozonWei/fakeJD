@@ -47,13 +47,14 @@ export default {
 <style scoped lang="scss">
 @import "../../style/variables";
 @import "../../style/mixins";
+
 .position {
   position: relative;
   padding: .16rem .24rem .16rem 0;
   line-height: .22rem;
   font-size: .16rem;
   @include ellipsis;
-  color: $content-fontcolor;
+  color: $content-fontColor;
   &__icon {
     position: relative;
     top: .01rem;
@@ -69,8 +70,8 @@ export default {
 .search {
   height: .32rem;
   line-height: .32rem;
-  background-color: #f5f5f5;
-  color: #b7b7b7;
+  background-color: $search-bgColor;
+  color: $content-iconColor;
   border-radius: .16rem;
   margin-bottom: .12rem;
   &__text {
@@ -105,7 +106,7 @@ export default {
     &__desc {
       text-align: center;
       margin: .06rem 0 .16rem 0;
-      color: $content-fontcolor;
+      color: $content-fontColor;
     }
   }
 }
