@@ -13,12 +13,14 @@
     </div>
     <ShopInfo :item="item"></ShopInfo>
     <Content></Content>
+    <Cart></Cart>
   </div>
 </template>
 
 <script>
 import ShopInfo from '@/components/ShopInfo'
 import Content from '@/views/shop/Content'
+import Cart from '@/views/shop/Cart'
 import { get } from '@/utils/request'
 import { useRouter, useRoute } from 'vue-router'
 import { reactive, toRefs } from 'vue'
@@ -55,7 +57,7 @@ const useBackRouterEffect = () => {
 
 export default {
   name: 'Shop',
-  components: { ShopInfo, Content },
+  components: { ShopInfo, Content, Cart },
 
   setup () {
     const {
