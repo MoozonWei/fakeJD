@@ -3,10 +3,10 @@
     <div class="check">
       <div class="check__icon">
         <img src="http://www.dell-lee.com/imgs/vue3/basket.png" alt="" class="check__icon__img">
-        <div class="check__icon__tag">1</div>
+        <div class="check__icon__tag">{{ totalCount }}</div>
       </div>
       <div class="check__info">
-        总计：<span class="check__info__price">¥127</span>
+        总计：<span class="check__info__price">¥ {{ totalPrice }}</span>
       </div>
       <div class="check__button">去结算</div>
     </div>
@@ -14,10 +14,60 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+
+const useCartEffect = () => {
+  const store = useStore()
+  const shopId = useRoute().params.id
+  const { cartList } = store.state
+  const totalCount = computed(() => {
+    const productList = cartList[shopId]
+    let totalCount = 0
+    if (productList) {
+      // for (const productListElement of productList) {
+      //   totalCount += productListElement.count
+      // }
+      for (const productListKey in productList) {
+        const product = productList[productListKey]
+        totalCount += product.count
+      }
+    }
+    return totalCount
+  })
+  const totalPrice = computed(() => {
+    const productList = cartList[shopId]
+    let totalPrice = 0
+    if (productList) {
+      // for (const productListElement of productList) {
+      //   totalCount += productListElement.count
+      // }
+      for (const productListKey in productList) {
+        const product = productList[productListKey]
+        totalPrice += product.count * product.price
+      }
+    }
+    return totalPrice.toFixed(2)
+  })
+  return {
+    totalCount,
+    totalPrice
+  }
+}
+
 export default {
   name: 'Cart',
   setup () {
-    //
+    const {
+      totalCount,
+      totalPrice
+    } = useCartEffect()
+
+    return {
+      totalCount,
+      totalPrice
+    }
   }
 }
 </script>
@@ -52,16 +102,18 @@ export default {
 
     &__tag {
       position: absolute;
-      width: .2rem;
+      min-width: .06rem;
       height: .2rem;
       background-color: $highlight-fontColor;
       color: white;
-      border-radius: 50%;
+      padding: 0 .07rem;
+      border-radius: .1rem;
       font-size: .12rem;
       line-height: .2rem;
       text-align: center;
-      right: .2rem;
+      left: .5rem;
       top: .04rem;
+      transform-origin: left center;
       transform: scale(.5);
     }
   }

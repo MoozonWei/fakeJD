@@ -26,9 +26,9 @@
           </p>
         </div>
         <div class="product__number">
-          <span class="product__number__minus">-</span>
-          0
-          <span class="product__number__plus">+</span>
+          <span class="product__number__minus" @click="() => {changeCartInfo(id, item._id, item, false)}">-</span>
+          {{ cartList?.[id]?.[item._id]?.count || 0 }}
+          <span class="product__number__plus" @click="() => {changeCartInfo(id, item._id, item, true)}">+</span>
         </div>
       </div>
     </div>
@@ -39,6 +39,7 @@
 import { get } from '@/utils/request'
 import { reactive, toRefs, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 const categories = [
   {
@@ -69,10 +70,8 @@ const useTabEffect = () => {
 }
 
 // 和当前列表相关的内容
-const useCurrentListEffect = (currentTab) => {
+const useCurrentListEffect = (currentTab, id) => {
   const content = reactive({ list: [] })
-  const route = useRoute()
-  const id = route.params.id
 
   const getContentData = async () => {
     const result = await get(`/api/shop/${id}/products`, {
@@ -90,22 +89,49 @@ const useCurrentListEffect = (currentTab) => {
   return { list }
 }
 
+// 购物车相关
+const useCartEffect = () => {
+  const store = useStore()
+  const { cartList } = toRefs(store.state)
+  const changeCartInfo = (shopId, productId, productInfo, isAnAdd) => {
+    store.commit('changeCartInfo', {
+      shopId,
+      productId,
+      productInfo,
+      isAnAdd
+    })
+  }
+
+  return {
+    cartList,
+    changeCartInfo
+  }
+}
+
 export default {
   name: 'Content',
 
   setup () {
+    const route = useRoute()
+    const id = route.params.id
     const {
       currentTab,
       handleTabClick
     } = useTabEffect()
-    console.log(currentTab)
-    const { list } = useCurrentListEffect(currentTab)
+    const { list } = useCurrentListEffect(currentTab, id)
+    const {
+      cartList,
+      changeCartInfo
+    } = useCartEffect()
 
     return {
       categories,
       list,
+      id,
       currentTab,
-      handleTabClick
+      handleTabClick,
+      cartList,
+      changeCartInfo
     }
   }
 }

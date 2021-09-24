@@ -100,7 +100,7 @@ export default {
     }
   }
   &__register-button {
-    margin: .32rem .4rem  .16rem;
+    margin: .32rem auto .16rem;
     width: 2.95rem;
     height: .48rem;
     background: $btn-bgColor;

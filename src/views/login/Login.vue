@@ -109,7 +109,7 @@ export default {
     }
   }
   &__login-button {
-    margin: .32rem .4rem  .16rem;
+    margin: .32rem auto .16rem;
     width: 2.95rem;
     height: .48rem;
     background: $btn-bgColor;
