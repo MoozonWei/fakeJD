@@ -20,6 +20,7 @@ export default createStore({
       if (!product) {
         product = productInfo
         product.count = 0
+        product.checked = true
       }
       if (!isAnAdd && product.count > 0) {
         product.count--
@@ -27,7 +28,13 @@ export default createStore({
         product.count++
       }
       shop[productId] = product
+      if (product.count === 0) {
+        delete shop[productId]
+      }
       state.cartList[shopId] = shop
+    },
+    clearCart (state, id) {
+      state.cartList[id] = {}
     }
   },
   actions: {},
