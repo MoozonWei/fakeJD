@@ -26,9 +26,9 @@
           </p>
         </div>
         <div class="product__number">
-          <span class="product__number__minus" @click="() => {changeCartInfo(id, item._id, item, false)}">-</span>
-          {{ cartList?.[id]?.[item._id]?.count || 0 }}
-          <span class="product__number__plus" @click="() => {changeCartInfo(id, item._id, item, true)}">+</span>
+          <span class="product__number__minus" @click="() => {changeCartInfo(id, shopName, item._id, item, false)}">-</span>
+          {{ cartList?.[id]?.productList?.[item._id]?.count || 0 }}
+          <span class="product__number__plus" @click="() => {changeCartInfo(id, shopName, item._id, item, true)}">+</span>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
 
 <script>
 import { get } from '@/utils/request'
-import { reactive, toRefs, ref, watchEffect } from 'vue'
+import { reactive, toRefs, ref, watchEffect, inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -93,9 +93,10 @@ const useCurrentListEffect = (currentTab, id) => {
 const useCartEffect = () => {
   const store = useStore()
   const { cartList } = toRefs(store.state)
-  const changeCartInfo = (shopId, productId, productInfo, isAnAdd) => {
+  const changeCartInfo = (shopId, shopName, productId, productInfo, isAnAdd) => {
     store.commit('changeCartInfo', {
       shopId,
+      shopName,
       productId,
       productInfo,
       isAnAdd
@@ -124,6 +125,8 @@ export default {
       changeCartInfo
     } = useCartEffect()
 
+    const shopName = inject('shopName')
+
     return {
       categories,
       list,
@@ -131,7 +134,8 @@ export default {
       currentTab,
       handleTabClick,
       cartList,
-      changeCartInfo
+      changeCartInfo,
+      shopName
     }
   }
 }

@@ -23,24 +23,27 @@ import Content from '@/views/shop/Content'
 import Cart from '@/views/shop/Cart'
 import { get } from '@/utils/request'
 import { useRouter, useRoute } from 'vue-router'
-import { reactive, toRefs } from 'vue'
+import { provide, reactive, toRefs } from 'vue'
 
 // 获取当前商铺信息
 const useShopInfoEffect = () => {
   const data = reactive({
-    item: {}
+    item: {},
+    shopName: ''
   })
   const getItemData = async () => {
     const route = useRoute()
     const result = await get('/api/shop/' + route.params.id)
     if (result?.errno === 0 && result?.data) {
       data.item = result.data
+      data.shopName = result.data.name
     }
   }
 
-  const { item } = toRefs(data)
+  const { item, shopName } = toRefs(data)
   return {
     item,
+    shopName,
     getItemData
   }
 }
@@ -62,11 +65,13 @@ export default {
   setup () {
     const {
       item,
+      shopName,
       getItemData
     } = useShopInfoEffect()
     getItemData()
     const { handleBackClick } = useBackRouterEffect()
 
+    provide('shopName', shopName)
     return {
       handleBackClick,
       item
