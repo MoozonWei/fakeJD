@@ -44,7 +44,7 @@
         总计：<span class="check__info__price">¥ {{ totalPrice }}</span>
       </div>
       <div class="check__button">
-        <router-link :to="{name: 'Home'}">
+        <router-link :to="{path: `/orderConfirmation/${id}`}">
           去结算
         </router-link>
       </div>
