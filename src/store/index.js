@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    cartList: JSON.parse(localStorage.cartList) || {}
+    cartList: JSON.parse(localStorage.cartList || '{}')
   },
   mutations: {
     changeCartInfo (state, payload) {

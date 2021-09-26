@@ -8,8 +8,8 @@
         @click="() => handleTabClick(item.tab)"
       >{{ item.name }}
       </div>
-
     </div>
+
     <div class="product">
       <div
         class="product__item"
@@ -26,9 +26,11 @@
           </p>
         </div>
         <div class="product__number">
-          <span class="product__number__minus" @click="() => {changeCartInfo(id, shopName, item._id, item, false)}">-</span>
+          <span class="product__number__minus"
+                @click="() => {changeCartInfo(id, shopName, item._id, item, false)}">-</span>
           {{ cartList?.[id]?.productList?.[item._id]?.count || 0 }}
-          <span class="product__number__plus" @click="() => {changeCartInfo(id, shopName, item._id, item, true)}">+</span>
+          <span class="product__number__plus"
+                @click="() => {changeCartInfo(id, shopName, item._id, item, true)}">+</span>
         </div>
       </div>
     </div>
